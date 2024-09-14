@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.HTMLEditor?>
+
+<AnchorPane prefHeight="437.0" prefWidth="617.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.intern_manegement_app.interInsertionController">
+<children>
+<TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <tabs>
+                <Tab fx:id="manageTab" text="Manage">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <TabPane prefHeight="408.0" prefWidth="617.3333333333334" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <tabs>
+
+
+<Tab text="Insert">
+    <content>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <children>
+                                          <BorderPane layoutX="203.0" layoutY="60.0" prefHeight="378.6666666666667" prefWidth="617.3333333333334" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <bottom>
+                                                <ButtonBar BorderPane.alignment="CENTER">
+                                                   <BorderPane.margin>
+                                                      <Insets bottom="10.0" top="10.0" />
+                                                   </BorderPane.margin>
+                                                   <buttons>
+                                                      <Button mnemonicParsing="false" onAction="#insertInternController" text="Insert" />
+                                                      <Button mnemonicParsing="false" onAction="#refreshInputs" text="Refresh" />
+                                                   </buttons>
+                                                   <padding>
+                                                      <Insets left="10.0" right="10.0" />
+                                                   </padding>
+                                                </ButtonBar>
+                                             </bottom>
+                                             <center>
+                                                <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
+                                                   <content>
+                                                      <GridPane prefHeight="376.0" prefWidth="180.0" vgap="5.0">
+                                                         <columnConstraints>
+                                                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="494.66668701171875" minWidth="10.0" percentWidth="30.0" prefWidth="274.66668701171875" />
+                                                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="327.99995930989587" minWidth="10.0" percentWidth="65.0" prefWidth="326.6666463216146" />
+                                                         </columnConstraints>
+                                                         <rowConstraints>
+                                                            <RowConstraints minHeight="13.0" prefHeight="40.0" valignment="CENTER" vgrow="ALWAYS" />
+                                                            <RowConstraints minHeight="13.0" prefHeight="40.0" valignment="CENTER" vgrow="ALWAYS" />
+                                                            <RowConstraints minHeight="13.0" prefHeight="40.0" valignment="CENTER" vgrow="ALWAYS" />
+                                                            <RowConstraints minHeight="13.0" prefHeight="40.0" valignment="CENTER" vgrow="ALWAYS" />
+                                                            <RowConstraints maxHeight="60.66665649414065" minHeight="13.0" prefHeight="41.33332316080728" valignment="CENTER" vgrow="ALWAYS" />
+                                                            <RowConstraints maxHeight="60.00001525878906" minHeight="13.0" prefHeight="33.0" valignment="CENTER" vgrow="ALWAYS" />
+                                                            <RowConstraints maxHeight="41.999959309895814" minHeight="16.666666666666686" prefHeight="37.333333333333314" valignment="CENTER" vgrow="ALWAYS" />
+                                                            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                                                            <RowConstraints />
+                                                         </rowConstraints>
+                                                         <effect>
+                                                            <Glow />
+                                                         </effect>
+                                                         <children>
+                                                            <Label text="Name:" GridPane.columnIndex="0" />
+                                                            <TextField fx:id="insert_intern_Name" promptText="Enter Name" GridPane.columnIndex="1" />
+                                                            <Label text="Age:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                                            <TextField fx:id="insert_intern_Age" promptText="Enter Age" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                                                            <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                                            <TextField fx:id="insert_intern_Email" promptText="Enter Email" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                                                            <Label text="Theme :" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                                            <Label text="University:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                                            <TextField fx:id="insert_intern_University" promptText="Enter University" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                                                            <Label text="Phone Number:" GridPane.rowIndex="5" />
+                                                            <TextField fx:id="insert_intern_Phone" promptText="Enter Phone Number" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                                                            <Label text="Start Date:" GridPane.rowIndex="6" />
+                                                            <Label text="Internship Type:" GridPane.rowIndex="7" />
+                                                            <ChoiceBox fx:id="insert_intern_type" prefHeight="26.0" prefWidth="459.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                                                            <ChoiceBox fx:id="insert_intern_theme" prefHeight="26.0" prefWidth="475.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                                                            <DatePicker fx:id="insert_intern_StartDate" prefHeight="26.0" prefWidth="473.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                                                         </children>
+                                                      </GridPane>
+                                                   </content>
+                                                </ScrollPane>
+                                             </center>
+                                          </BorderPane>
+            </children>
+        </AnchorPane>
+    </content>
+</Tab>
+
+
+
+
+                                        <Tab text="Search">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                    <children>
+                                                        <SplitPane dividerPositions="0.5" layoutX="154.0" layoutY="98.0" prefHeight="378.6666666666667" prefWidth="617.3333333333334" style="-fx-box-border: transparent" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                            <items>
+                                                <BorderPane>
+                                                   <center>
+                                                      <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                                         <content>
+                                                            <GridPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="376.0" prefWidth="180.0">
+                                                               <columnConstraints>
+                                                                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="179.66668701171875" minWidth="10.0" prefWidth="126.33332061767578" />
+                                                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="172.00001271565753" minWidth="10.0" prefWidth="162.00001271565753" />
+                                                               </columnConstraints>
+                                                               <rowConstraints>
+                                                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="13.0" percentHeight="12.5" valignment="CENTER" vgrow="ALWAYS" />
+                                                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="13.0" percentHeight="12.5" valignment="CENTER" vgrow="ALWAYS" />
+                                                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="13.0" percentHeight="12.5" valignment="CENTER" vgrow="ALWAYS" />
+                                                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="13.0" percentHeight="12.5" valignment="CENTER" vgrow="ALWAYS" />
+                                                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="13.0" percentHeight="12.5" valignment="CENTER" vgrow="ALWAYS" />
+                                                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="13.0" percentHeight="12.5" valignment="CENTER" vgrow="ALWAYS" />
+                                                                  <RowConstraints maxHeight="1.7976931348623157E308" percentHeight="12.5" valignment="CENTER" vgrow="ALWAYS" />
+                                                                  <RowConstraints />
+                                                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="12.5" valignment="CENTER" vgrow="ALWAYS" />
+                                                                  <RowConstraints />
+                                                               </rowConstraints>
+                                                               <effect>
+                                                                  <Glow />
+                                                               </effect>
+                                                               <children>
+                                                                  <Label text="Name:" GridPane.columnIndex="0" />
+                                                                  <TextField fx:id="serach_intern_Name" promptText="Enter Name" GridPane.columnIndex="1" />
+                                                                  <Label text="Age:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                                                  <TextField fx:id="serach_intern_Age" promptText="Enter Age" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                                  <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                                                  <TextField fx:id="serach_intern_Email" promptText="Enter Email" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                                  <Label text="Theme :" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                                                  <Label text="University:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                                                  <TextField fx:id="serach_intern_University" promptText="Enter University" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                                  <Label text="Phone Number:" GridPane.rowIndex="5" />
+                                                                  <TextField fx:id="serach_intern_Phone" promptText="Enter Phone Number" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                                                  <Label text="Start Date:" GridPane.rowIndex="6" />
+                                                                  <Label text="Internship Type:" GridPane.rowIndex="8" />
+                                                                  <ChoiceBox fx:id="searchInternType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                                                  <ChoiceBox fx:id="search_intern_theme" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                                  <DatePicker fx:id="serach_intern_StartDate" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                                               </children>
+                                                            </GridPane>
+                                                         </content>
+                                                         <padding>
+                                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                         </padding>
+                                                      </ScrollPane>
+                                                   </center>
+                                                   <bottom>
+                                                      <ButtonBar BorderPane.alignment="CENTER">
+                                                         <BorderPane.margin>
+                                                            <Insets bottom="10.0" top="10.0" />
+                                                         </BorderPane.margin>
+                                                         <buttons>
+                                                            <Button mnemonicParsing="false" onAction="#searchIntern" text="Serach" />
+                                                            <Button mnemonicParsing="false" onAction="#refreshInputs" text="Refresh" />
+                                                         </buttons>
+                                                         <padding>
+                                                            <Insets left="10.0" right="10.0" />
+                                                         </padding>
+                                                      </ButtonBar>
+                                                   </bottom>
+                                                </BorderPane>
+                                                <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="376.0" prefWidth="303.0">
+                                                   <content>
+                                                      <VBox fx:id="ResultPool" prefHeight="200.0" prefWidth="100.0" />
+                                                   </content>
+                                                </ScrollPane>
+                                                            </items>
+                                                        </SplitPane>
+                                                    </children>
+                                                </AnchorPane>
+                                            </content>
+                                        </Tab>
+                                    </tabs>
+                                </TabPane>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab fx:id="emailTab" text="Email">
+               <content>
+                  <BorderPane prefHeight="408.0" prefWidth="617.3333333333334">
+                     <top>
+                    <AnchorPane prefHeight="47.0" prefWidth="617.0">
+                           <children>
+                              <TextField layoutX="196.0" layoutY="11.0" text="Example@dude.com" />
+                              <Label alignment="CENTER" layoutX="120.0" layoutY="15.0" text="Reciver" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                     </top>
+                     <bottom>
+                      <TitledPane prefHeight="359.0" prefWidth="617.0" text="Email content" BorderPane.alignment="CENTER">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <GridPane layoutX="18.666666666666668" layoutY="56.66666666666667" prefHeight="24.666666666666668" prefWidth="615.3333333333334" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints maxHeight="358.6666768391927" minHeight="10.0" prefHeight="292.3333333333333" vgrow="SOMETIMES" />
+                                          <RowConstraints maxHeight="100.0" minHeight="0.0" prefHeight="45.0" valignment="CENTER" vgrow="ALWAYS" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Button mnemonicParsing="false" text="Button" GridPane.rowIndex="1" />
+                                          <HTMLEditor htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" prefHeight="200.0" prefWidth="506.0" />
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </TitledPane>
+                     </bottom>
+                  </BorderPane>
+               </content>
+                </Tab>
+                <Tab fx:id="reportTab" text="Report">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane layoutX="39.0" prefHeight="408.0" prefWidth="617.3333333333334" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints maxHeight="362.33331298828125" minHeight="10.0" prefHeight="362.33331298828125" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="336.33332951863605" minHeight="0.0" prefHeight="45.000020345052064" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <HBox alignment="CENTER_RIGHT" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                 <children>
+                                    <Button alignment="CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#makePDF" text="Generate" textAlignment="CENTER" />
+                                 </children>
+                                 <padding>
+                                    <Insets right="10.0" />
+                                 </padding>
+                              </HBox>
+                              <HTMLEditor fx:id="PDF_INPUT" htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" prefHeight="200.0" prefWidth="506.0" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>  
+</AnchorPane>
