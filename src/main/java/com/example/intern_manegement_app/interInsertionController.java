@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.web.HTMLEditor;
@@ -232,7 +233,8 @@ try {
 
     Button UpdateButton = new Button("Update");
     Button DeleteButton = new Button("Delete");
-//  TODO add a print button
+    Button PrintButton = new Button("Print");
+
     DeleteButton.setOnAction(event -> {
       // Confirmation dialog
       Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -247,7 +249,6 @@ try {
         oracleConnector.deleteIntern(Integer.parseInt(params.get("intern_id")),params.get("name") );
       }
     });
-
 
     UpdateButton.setOnAction(event -> {
 //      load the update form the has its own controller and can get the inner_label
@@ -264,11 +265,16 @@ try {
       stage.show();
     });
 
+    //  TODO add a print functionality
+//  PrintButton.setOnAction(event ->{});
 
-    // TODO make the buttons align better (HBox)
-    // Create a VBox to hold the content and the button
+    // Create a VBox to hold the content and the buttonbox
     VBox vbox = new VBox(10); // Set spacing between children
-    vbox.getChildren().addAll(content, UpdateButton,DeleteButton);
+
+    HBox buttonBox = new HBox(10,  UpdateButton,DeleteButton,PrintButton); // Spacing between buttons
+    buttonBox.setAlignment(Pos.CENTER_RIGHT);
+
+    vbox.getChildren().addAll(content, buttonBox);
     vbox.setAlignment(Pos.CENTER); // Center alignment for the VBox
 
     // Create a nested label for the graphic

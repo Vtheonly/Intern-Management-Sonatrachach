@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 
 import java.net.URL;
 import java.util.*;
@@ -28,11 +29,7 @@ public class DecisionIntern  implements Initializable {
         oracleConnector Connection = new oracleConnector();
         ArrayList<String> themes = Connection.getSelectableOptions("theme", "theme_name");
         themeChoiceBox.setItems(FXCollections.observableArrayList(themes));
-
     }
-
-
-
     public void searchIntern() {
 
         ResultPool.getChildren().clear();
@@ -55,25 +52,33 @@ public class DecisionIntern  implements Initializable {
         for (Map<String, Object> intern : internData) {
             String name = intern.get("name") != null ? intern.get("name").toString() : "Unknown";
             String internString = intern.toString();
-            String isAccepted = intern.get("is_Accepted") != null ? intern.get("is_Accepted").toString() : "Unknown";
-            String theme = intern.get("theme_id") != null ? String.valueOf(oracleConnector.getThemeIdByName( String.valueOf( intern.get("theme_id")))) : "Unknown";
+            String isAccepted = intern.get("IS_ACCEPTED") != null ? intern.get("IS_ACCEPTED").toString() : "Unknown";
+
+
+
+            String theme ;
+            if (intern.get("theme_id") != null) {
+                theme = oracleConnector.getNameById(
+                        Integer.parseInt((String)intern.get("theme_id")),
+                        "theme",
+                        "theme_id",
+                        "theme_name"
+                );
+            } else {
+                theme = "UnknownTH";
+            }
+
+
             addToPool(name, internString, isAccepted, theme);
         }
 
-
     }
-
-    public void aacpetd_all(){
+    public void acceptedAll(){
         oracleConnector.setAllInternsAccepted();
     }
-
-
-
-    public void reject_all(){
+    public void rejectedAll(){
         oracleConnector.setAllInternsRejected();
     }
-
-
     public void addToPool(String Title, String Info, String isAccepted, String Theme) {
         // Create a Label with formatted text and enable text wrapping
         Label innerLabel = new Label(interInsertionController.formatString(Info));
@@ -81,7 +86,7 @@ public class DecisionIntern  implements Initializable {
 
         String internID = updateInternController.parseText( innerLabel.getText()).get("intern_id");
         String InternName = updateInternController.parseText( innerLabel.getText()).get("name");
-        // Create an HBox to hold the Accept and Reject buttons
+
         Button acceptButton = new Button("Accept");
         acceptButton.setOnAction(event -> {
             oracleConnector.internDecision(true,InternName,Integer.parseInt(internID));
@@ -92,32 +97,48 @@ public class DecisionIntern  implements Initializable {
             oracleConnector.internDecision(false,InternName,Integer.parseInt(internID));
         });
 
-
-
-        HBox buttonBox = new HBox(10, acceptButton, rejectButton); // Spacing between buttons
+        HBox buttonBox = new HBox(10, acceptButton, rejectButton);
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
 
-        // Create a VBox to hold the Label and the HBox with buttons
-        VBox contentBox = new VBox(10, innerLabel, buttonBox); // Spacing between Label and buttons
-        contentBox.setPadding(new Insets(10)); // Padding around the content
+        VBox contentBox = new VBox(10, innerLabel, buttonBox);
+        contentBox.setPadding(new Insets(10));
         contentBox.setAlignment(Pos.CENTER_LEFT);
 
-        // Create an AnchorPane and add the VBox to it
+        Label themeLabel = new Label(Theme);
+        themeLabel.setContentDisplay(ContentDisplay.LEFT);
+        themeLabel.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
+        Label isAcceptedLabel = new Label(isAccepted);
+
+        switch (isAccepted) {
+            case "Accepted":
+                isAcceptedLabel.setStyle("-fx-text-fill: green;");
+                break;
+            case "Rejected":
+                isAcceptedLabel.setStyle("-fx-text-fill: red;");
+                break;
+            case "Hold":
+                isAcceptedLabel.setStyle("-fx-text-fill: orange;");
+                break;
+            default:
+                isAcceptedLabel.setStyle("-fx-text-fill: black;");
+                break;
+        }
+        themeLabel.setGraphic(isAcceptedLabel);
+
         AnchorPane content = new AnchorPane();
         content.getChildren().add(contentBox);
         AnchorPane.setLeftAnchor(contentBox, 0.0);
         AnchorPane.setRightAnchor(contentBox, 0.0);
 
-        // Create a TitledPane with the provided title and content
         TitledPane row = new TitledPane();
         row.setText(Title);
         row.setContent(content);
+        row.setGraphic(themeLabel);
         row.setExpanded(false);
-
-        // Add the TitledPane to the ResultPool
+        row.setTextAlignment(TextAlignment.CENTER);
+        row.setAlignment(Pos.CENTER);
+        row.setContentDisplay(ContentDisplay.BOTTOM);
         ResultPool.getChildren().add(row);
     }
-
-
 
 }

@@ -18,6 +18,4 @@ public class Hasher {
         return hashed_pass.equals(Entered_hash);
     }
 
-
-
 }

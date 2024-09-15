@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 public class loginController {
-  oracleConnector Connection = new oracleConnector();
   @FXML private TextField username;
   @FXML private PasswordField password;
   @FXML private AnchorPane loginP;
@@ -24,20 +23,11 @@ public class loginController {
   public void onLoginClick() throws NoSuchAlgorithmException {
     loginWindow = (Stage) loginP.getScene().getWindow();
 
-    if (Connection.login(username.getText(),
-
-
-            Hasher.hash_it(
-                    password.getText()
-            )
-     )
-
-
-    ) {
+    if (oracleConnector.login(username.getText(),Hasher.hash_it(password.getText()))) {
       JOptionPane.showMessageDialog(null, "Access Granted. ", "Information", JOptionPane.INFORMATION_MESSAGE);
 
       //     admin
-      if (Connection.isAdmin(username.getText(),  Hasher.hash_it(
+      if (oracleConnector.isAdmin(username.getText(),  Hasher.hash_it(
               password.getText()
       ))) {
 
@@ -49,7 +39,7 @@ public class loginController {
 
 
           stage.show();
-          System.out.println(Connection.isAdmin(username.getText(),  Hasher.hash_it(
+          System.out.println(oracleConnector.isAdmin(username.getText(),  Hasher.hash_it(
                   password.getText()
           )));
 
@@ -63,7 +53,7 @@ public class loginController {
           e.printStackTrace();
 
         }
-      } else if (Connection.isChief(username.getText(),  Hasher.hash_it(
+      } else if (oracleConnector.isChief(username.getText(),  Hasher.hash_it(
               password.getText()
       )) ){
         try {
@@ -73,7 +63,7 @@ public class loginController {
           stage.setTitle("The Chief of Department");
           stage.setScene(new Scene(root));
           stage.show();
-          System.out.println(Connection.isAdmin(username.getText(),  Hasher.hash_it(
+          System.out.println(oracleConnector.isAdmin(username.getText(),  Hasher.hash_it(
                   password.getText()
           )));
 
@@ -101,7 +91,7 @@ public class loginController {
           stage.setScene(new Scene(root));
           stage.setTitle("The Clerk");
           stage.show();
-          System.out.println(Connection.isAdmin(username.getText(),  Hasher.hash_it(
+          System.out.println(oracleConnector.isAdmin(username.getText(),  Hasher.hash_it(
                   password.getText()
           )));
 
@@ -112,7 +102,6 @@ public class loginController {
 
         } catch (IOException e) {
           e.printStackTrace();
-          // Handle any potential IOException here
         }
       }
     }else{
