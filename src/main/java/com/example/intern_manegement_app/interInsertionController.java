@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import com.lowagie.text.Paragraph;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,12 +27,13 @@ import java.io.FileOutputStream;
 import java.io.StringReader;
 
 public class interInsertionController implements Initializable {
+//  to exchange data in update and delete needs to be global
   static String labelText;
+
   oracleConnector Connection = new oracleConnector();
   @FXML private Tab manageTab;
   @FXML private Tab emailTab;
   @FXML private Tab reportTab;
-
 
 
   // insertion part
@@ -50,26 +50,22 @@ public class interInsertionController implements Initializable {
   @FXML private VBox ResultPool;
   @FXML private ChoiceBox<String> search_intern_theme;
   @FXML private ChoiceBox<String> searchInternType;
-  @FXML private TextField serach_intern_Name;
-  @FXML private TextField serach_intern_Age;
-  @FXML private TextField serach_intern_Email;
-  @FXML private TextField serach_intern_University;
-  @FXML private TextField serach_intern_Phone;
-  @FXML private DatePicker serach_intern_StartDate;
+  @FXML private TextField search_intern_Name;
+  @FXML private TextField search_intern_Age;
+  @FXML private TextField search_intern_Email;
+  @FXML private TextField search_intern_University;
+  @FXML private TextField search_intern_Phone;
+  @FXML private DatePicker search_intern_StartDate;
 
 // Report_tab
-
-
   @FXML private HTMLEditor PDF_INPUT;
+
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    //   choice box filling
     String[] list = {"1 month ","2 months" ,"3 months"};
     ArrayList<String> internships_types = new ArrayList<String>(Arrays.asList(list));
-
-    //   choice box filling
-    ArrayList<String>  respos = Connection.getSelectableOptions("responsible", "name");
     ArrayList<String> themes = Connection.getSelectableOptions("theme", "theme_name");
-
     search_intern_theme.setItems(FXCollections.observableArrayList(themes));
     insert_intern_theme.setItems(FXCollections.observableArrayList(themes));
     searchInternType.setItems(FXCollections.observableArrayList(internships_types));
@@ -77,33 +73,26 @@ public class interInsertionController implements Initializable {
 
 
   }
-
+// clears all inputs and query
   @FXML
-  public void refreshInputs() {
-    // Clearing TextFields
+  public void clearInputs() {
     insert_intern_Name.clear();
     insert_intern_Age.clear();
     insert_intern_Email.clear();
     insert_intern_University.clear();
     insert_intern_Phone.clear();
 
+    search_intern_Name.clear();
+    search_intern_Age.clear();
+    search_intern_Email.clear();
+    search_intern_University.clear();
+    search_intern_Phone.clear();
 
-    serach_intern_Name.clear();
-    serach_intern_Age.clear();
-    serach_intern_Email.clear();
-    serach_intern_University.clear();
-    serach_intern_Phone.clear();
-
-
-    // Unselecting ChoiceBoxes
     insert_intern_theme.getSelectionModel().clearSelection();
     insert_intern_type.getSelectionModel().clearSelection();
     search_intern_theme.getSelectionModel().clearSelection();
     searchInternType.getSelectionModel().clearSelection();
-
-
   }
-
 
   public void setAccessLevel(int accessLevel) {
     // Disable all tabs initially
@@ -121,7 +110,7 @@ public class interInsertionController implements Initializable {
         reportTab.setDisable(false); // Access to report tab only
         break;
       case 3:
-        manageTab.setDisable(false);
+        manageTab.setDisable(false); // has them all
         emailTab.setDisable(false);
         reportTab.setDisable(false);
         break;
@@ -131,7 +120,7 @@ public class interInsertionController implements Initializable {
     }
   }
 
-
+// this func was AI generated
   public static String formatString(String Info) {
     // Remove the curly braces
     Info = Info.substring(1, Info.length() - 1);
@@ -161,18 +150,12 @@ public class interInsertionController implements Initializable {
     return result.toString();
   }
 
-
   @FXML
   public void insertInternController() {
 
-
-
     HashMap<String, Object> internData = new HashMap<>();
-
+//    the autoincrement was unstable and required triggers
     int newInternId = oracleConnector.getMaxId("intern", "intern_id") + 1;
-
-
-
 
     internData.put("intern_id", newInternId);
     internData.put("name", insert_intern_Name.getText());
@@ -182,7 +165,7 @@ public class interInsertionController implements Initializable {
     internData.put("phone_number", insert_intern_Phone.getText());
     internData.put("IS_ACCEPTED", "hold");
 
-//    handling null /empty input
+//    handling null /empty input (for verification)
     if(insert_intern_StartDate.getValue()==null){
       internData.put("start_date", "");
     } else {
@@ -206,21 +189,19 @@ public class interInsertionController implements Initializable {
     String value;
     for (String key : keys) {
     value =internData.get(key).toString();
-
-      if(value=="" || value.isEmpty()){// missing arg
-
+      if(value=="" || value.isEmpty()){// missing arg empty
         JOptionPane.showMessageDialog(null, "Fill all the inputs fields", "Missing Parameters", JOptionPane.WARNING_MESSAGE);
-        return;
-
+        return; // the transaction doesn't happen
       }
-
     }
 
 
 //    check if phone number and age are numbers
 try {
-      Integer x =  Integer.parseInt(String.valueOf(insert_intern_Age.getText()));
-      Integer y =  Integer.parseInt(String.valueOf(insert_intern_Phone.getText()));
+      Integer age =  Integer.parseInt(String.valueOf(insert_intern_Age.getText()));
+      Integer phone =  Integer.parseInt(String.valueOf(insert_intern_Phone.getText()));
+      // if he inputs a mixed text the number cant be parsed there for invalid
+
 }catch(Exception e){
   JOptionPane.showMessageDialog(null, "Fill fields with valid inputs", "invalid Parameters", JOptionPane.WARNING_MESSAGE);
   return;
@@ -229,14 +210,13 @@ try {
 
 
 
-
-
+    // TODO make a string to text-date javaFX to oracleSQL parsing function
     internData.put("start_date", null);
     internData.put("end_date", null);
+    // TODO make a reference to the user id of the user
     internData.put("inserted_by", null); // fix null later just defaults
     oracleConnector.insertIntern(internData);
   }
-
 
   public void addToPool(String Title, String Info, String isAccepted, String Theme) {
     // Create the inner label for the info
@@ -250,41 +230,30 @@ try {
     innerLabel.prefWidthProperty().bind(content.widthProperty());
     content.getChildren().add(innerLabel);
 
-    // Create the Update button
-    Button button = new Button("Update");
-
-
-    Button buttonDEL = new Button("Delete");
-
-    buttonDEL.setOnAction(event -> {
+    Button UpdateButton = new Button("Update");
+    Button DeleteButton = new Button("Delete");
+//  TODO add a print button
+    DeleteButton.setOnAction(event -> {
       // Confirmation dialog
       Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
       confirmationAlert.setTitle("Confirmation");
       confirmationAlert.setHeaderText(null);
       confirmationAlert.setContentText("Do you want to delete this item?");
-
       if (confirmationAlert.showAndWait().get() == javafx.scene.control.ButtonType.OK) {
-        //  delete operation
 
-
-
-        labelText = ((Label) ((AnchorPane) ((VBox)  buttonDEL.getParent()).getChildren().get(0)).getChildren().get(0)).getText();
+        // parses the innerTEXT of the "DOM" of the inside of the pane
+        labelText = ((Label) ((AnchorPane) ((VBox)  DeleteButton.getParent()).getChildren().get(0)).getChildren().get(0)).getText();
         Map<String, String> params=updateInternController.parseText(labelText);
         oracleConnector.deleteIntern(Integer.parseInt(params.get("intern_id")),params.get("name") );
-
-
       }
     });
 
 
-    button.setOnAction(event -> {
-      // Handle button click event here
-  labelText = innerLabel.getText();
-      System.out.println(labelText);
-
-
+    UpdateButton.setOnAction(event -> {
+//      load the update form the has its own controller and can get the inner_label
+      labelText = innerLabel.getText();
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("update_intern.fxml"));
-      Parent root = null;
+      Parent root;
       try {
         root = fxmlLoader.load();
       } catch (IOException e) {
@@ -293,18 +262,19 @@ try {
       Stage stage = new Stage();
       stage.setScene(new Scene(root));
       stage.show();
-
     });
 
+
+    // TODO make the buttons align better (HBox)
     // Create a VBox to hold the content and the button
     VBox vbox = new VBox(10); // Set spacing between children
-    vbox.getChildren().addAll(content, button,buttonDEL);
+    vbox.getChildren().addAll(content, UpdateButton,DeleteButton);
     vbox.setAlignment(Pos.CENTER); // Center alignment for the VBox
 
     // Create a nested label for the graphic
     Label themeLabel = new Label(Theme);
+    themeLabel.setContentDisplay(ContentDisplay.LEFT);
     themeLabel.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
-
     Label isAcceptedLabel = new Label(isAccepted);
     switch (isAccepted) {
       case "Accepted":
@@ -320,22 +290,17 @@ try {
         isAcceptedLabel.setStyle("-fx-text-fill: black;");
         break;
     }
-
     themeLabel.setGraphic(isAcceptedLabel);
-    themeLabel.setContentDisplay(ContentDisplay.LEFT); // Set IS_ACCEPTED label below the theme label
 
-    // Create the TitledPane
+    // Create the TitledPane the whole wrapper
     TitledPane row = new TitledPane();
     row.setText(Title);
     row.setContent(vbox);
     row.setGraphic(themeLabel);
     row.setExpanded(false);
-
-    // Center alignment for the TitledPane
     row.setTextAlignment(TextAlignment.CENTER);
     row.setAlignment(Pos.CENTER);
     row.setContentDisplay(ContentDisplay.BOTTOM);
-
     ResultPool.getChildren().add(row);
   }
 
@@ -365,42 +330,35 @@ try {
   }
 
   public void searchIntern() {
-
     ResultPool.getChildren().clear();
-
     Map<String, String> filters = new HashMap<>();
 
-    // Check and add 'name'
-    if (!serach_intern_Name.getText().isEmpty()) {
-      filters.put("name", serach_intern_Name.getText());
+    // Check and add the param and it's value
+    if (!search_intern_Name.getText().isEmpty()) {
+      filters.put("name", search_intern_Name.getText());
     }
 
-    // Check and add 'age'
-    if (!serach_intern_Age.getText().isEmpty()) {
-      filters.put("age", serach_intern_Age.getText());
+    if (!search_intern_Age.getText().isEmpty()) {
+      filters.put("age", search_intern_Age.getText());
     }
 
-    // Check and add 'email'
-    if (!serach_intern_Email.getText().isEmpty()) {
-      filters.put("email", serach_intern_Email.getText());
+    if (!search_intern_Email.getText().isEmpty()) {
+      filters.put("email", search_intern_Email.getText());
     }
 
-
-    // Check and add 'theme_id' (assuming this is from search_intern_theme)
+//  translate to id first then add
     if (search_intern_theme.getValue()!= null) {
       filters.put("theme_id",String.valueOf(oracleConnector.getThemeIdByName(search_intern_theme.getValue())));
     }
 
-    if (!serach_intern_University.getText().isEmpty()) {
-      filters.put("university", serach_intern_University.getText());
+    if (!search_intern_University.getText().isEmpty()) {
+      filters.put("university", search_intern_University.getText());
     }
-    if (!serach_intern_Phone.getText().isEmpty()) {
-      filters.put("phone_number", serach_intern_Phone.getText());
+    if (!search_intern_Phone.getText().isEmpty()) {
+      filters.put("phone_number", search_intern_Phone.getText());
     }
 
-
-
-
+//    get the result according to the constraints
     List<Map<String, Object>> internData = oracleConnector.getInternRows(filters);
 
     for (Map<String, Object> intern : internData) {
@@ -429,14 +387,9 @@ try {
       }
 
       addToPool(name, internString, isAccepted, theme);
-      System.out.println(isAccepted+" "+theme+" "+name);
-
-
     }
 
   }
 
-
   public static String sendConstraint(){return labelText;}
-
 }
