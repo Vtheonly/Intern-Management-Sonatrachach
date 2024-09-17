@@ -17,45 +17,24 @@ public class loginController {
   @FXML private PasswordField password;
   @FXML private AnchorPane loginP;
   Stage loginWindow ;
-
-
-
   public void onLoginClick() throws NoSuchAlgorithmException {
     loginWindow = (Stage) loginP.getScene().getWindow();
-
     if (oracleConnector.login(username.getText(),Hasher.hash_it(password.getText()))) {
       JOptionPane.showMessageDialog(null, "Access Granted. ", "Information", JOptionPane.INFORMATION_MESSAGE);
-
-      //     admin
-      if (oracleConnector.isAdmin(username.getText(),  Hasher.hash_it(
-              password.getText()
-      ))) {
-
+      // admin
+      if (oracleConnector.isAdmin(username.getText(),  Hasher.hash_it(password.getText()))) {
         try {
           FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("user_insertion.fxml"));
           Parent root = fxmlLoader.load();
           Stage stage = new Stage();
           stage.setScene(new Scene(root));
-
-
           stage.show();
-          System.out.println(oracleConnector.isAdmin(username.getText(),  Hasher.hash_it(
-                  password.getText()
-          )));
-
-
-
           loginWindow.close();
-
-
-
         } catch (IOException e) {
           e.printStackTrace();
-
-        }
-      } else if (oracleConnector.isChief(username.getText(),  Hasher.hash_it(
-              password.getText()
-      )) ){
+        }}
+      // chief
+      else if (oracleConnector.isChief(username.getText(),  Hasher.hash_it(password.getText()))){
         try {
           FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("decision_Intern.fxml"));
           Parent root = fxmlLoader.load();
@@ -63,43 +42,24 @@ public class loginController {
           stage.setTitle("The Chief of Department");
           stage.setScene(new Scene(root));
           stage.show();
-          System.out.println(oracleConnector.isAdmin(username.getText(),  Hasher.hash_it(
-                  password.getText()
-          )));
-
           loginWindow.close();
-
-
         } catch (IOException e) {
           e.printStackTrace();
         }
-
-      } else {
+      }
+      // secretary
+      else {
         try {
           FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("intern_insertion.fxml"));
           Parent root = fxmlLoader.load();
-
           interInsertionController controller = fxmlLoader.getController();
-
-          int accessLevel =oracleConnector.getWorkerUserId(username.getText(), Hasher.hash_it(
-                  password.getText()
-          ));
-          System.out.println(accessLevel);
-
+          int accessLevel =oracleConnector.getWorkerUserId(username.getText(), Hasher.hash_it(password.getText()));
           controller.setAccessLevel(accessLevel);
           Stage stage = new Stage();
           stage.setScene(new Scene(root));
           stage.setTitle("The Clerk");
           stage.show();
-          System.out.println(oracleConnector.isAdmin(username.getText(),  Hasher.hash_it(
-                  password.getText()
-          )));
-
-
-
           loginWindow.close();
-
-
         } catch (IOException e) {
           e.printStackTrace();
         }
