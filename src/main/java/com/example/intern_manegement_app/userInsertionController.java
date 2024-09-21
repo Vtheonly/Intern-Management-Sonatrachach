@@ -26,11 +26,11 @@ import static com.example.intern_manegement_app.Toolkit.formatString;
 import static com.example.intern_manegement_app.Toolkit.generatePassword;
 
 public class userInsertionController implements Initializable {
-  oracleConnector Connection = new oracleConnector();
 
   static String labelText;
+  
   // Search tab part
-  @FXML private VBox ResultPool;
+  @FXML private VBox ResultWorkerUserPool;
   @FXML private VBox ResultThemePool;
   @FXML private VBox ResultDepartmentPool;
 
@@ -52,18 +52,15 @@ public class userInsertionController implements Initializable {
   @FXML private TextField theme_name;
   @FXML private ChoiceBox<String> Theme_department;
   // department part
-
-
   @FXML private TextField location;
   @FXML private TextField department_name;
   @FXML private TextArea department_description;
-  @FXML private TextField DEP_fax;
+  @FXML private TextField department_fax;
   //  Statistics part
   @FXML private PieChart theme_chart;
   @FXML private PieChart intern_chart;
+  
   @Override
-
-
   public void initialize(URL location, ResourceBundle resources) {
 
     ArrayList<String> roles       = oracleConnector.getSelectableOptions("role", "role_name");
@@ -110,21 +107,19 @@ public class userInsertionController implements Initializable {
     location.clear();
     department_name.clear();
     department_description.clear();
-    DEP_fax.clear();
+    department_fax.clear();
     Department.getSelectionModel().clearSelection();
     supervisor.getSelectionModel().clearSelection();
     role_type.getSelectionModel().clearSelection();
     Theme_department.getSelectionModel().clearSelection();
-    ResultPool.getChildren().clear();
+    ResultWorkerUserPool.getChildren().clear();
   }
   
 //  todo : put "addtopools" this into a separate  class with the polls as argument
   @FXML
   public void addToThemePool(String title, String info) {
-    // The label containing the text
     Label innerLabel = new Label(formatString(info));
     innerLabel.setWrapText(true);
-
     AnchorPane.setLeftAnchor(innerLabel, 0.0);
     AnchorPane.setRightAnchor(innerLabel, 0.0);
 
@@ -136,61 +131,40 @@ public class userInsertionController implements Initializable {
       oracleConnector.deleteTheme(Integer.parseInt(params.get("theme_id")),params.get("theme_name"));
     });
 
-    // Create the AnchorPane to hold the label
     AnchorPane content = new AnchorPane();
     innerLabel.prefWidthProperty().bind(content.widthProperty());
     content.getChildren().add(innerLabel);
 
-    // Create a VBox to hold both the label and the button
-    VBox vbox = new VBox(10); // Set spacing between children
+    VBox vbox = new VBox(10); 
     vbox.getChildren().addAll(content, buttonDel);
-    vbox.setAlignment(Pos.CENTER); // Center alignment for the VBox
+    vbox.setAlignment(Pos.CENTER); 
 
-    // Create the TitledPane
     TitledPane row = new TitledPane();
     row.setText(title);
     row.setContent(vbox);
     row.setExpanded(false);
 
-    // Add the TitledPane to the ResultThemePool
     ResultThemePool.getChildren().add(row);
   }
   
   @FXML
   public void addToWorkerUserPool(String Title, String Info) {
 
-    // The label containing the text
     Label innerLabel = new Label(formatString(Info));
     innerLabel.setWrapText(true);
-    // to fit the width
     AnchorPane.setLeftAnchor(innerLabel, 0.0);
     AnchorPane.setRightAnchor(innerLabel, 0.0);
 
-    Button button = new Button("Update");
-    Button buttondel = new Button("Delete");
-
-
-
-    buttondel.setOnAction(event -> {
-      labelText = ((Label) ((AnchorPane) ((VBox)  buttondel.getParent()).getChildren().get(0)).getChildren().get(0)).getText();
+    Button updateButton = new Button("Update");
+    Button deleteButton = new Button("Delete");
+    deleteButton.setOnAction(event -> {
+      labelText = ((Label) ((AnchorPane) ((VBox)  deleteButton.getParent()).getChildren().get(0)).getChildren().get(0)).getText();
       Map<String, String> params=Toolkit.parseText(labelText);
       oracleConnector.deleteWorkerUser(Integer.parseInt(params.get("user_id")),params.get("full_name") );
-
     });
+    updateButton.setOnAction(event -> {
 
-
-
-
-
-
-    button.setOnAction(event -> {
-      // Handle button click event here
-      // Access the label's text
-      labelText = ((Label) ((AnchorPane) ((VBox) button.getParent()).getChildren().get(0)).getChildren().get(0)).getText();
-      // Print the label's text
-
-
-
+      labelText = ((Label) ((AnchorPane) ((VBox) updateButton.getParent()).getChildren().get(0)).getChildren().get(0)).getText();
 
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("update_worker_user.fxml"));
       Parent root = null;
@@ -204,26 +178,20 @@ public class userInsertionController implements Initializable {
       stage.show();
     });
 
-    // Create the AnchorPane to hold the label
     AnchorPane content = new AnchorPane();
     innerLabel.prefWidthProperty().bind(content.widthProperty());
     content.getChildren().add(innerLabel);
 
-// Create a VBox to hold both the label and the button
-    VBox vbox = new VBox(10); // Set spacing between children
-    vbox.getChildren().addAll(content, button,buttondel);
-    vbox.setAlignment(Pos.CENTER); // Center alignment for the VBox
+    VBox vbox = new VBox(10); 
+    vbox.getChildren().addAll(content, updateButton,deleteButton);
+    vbox.setAlignment(Pos.CENTER);
 
-
-    // Create the TitledPane
     TitledPane row = new TitledPane();
     row.setText(Title);
     row.setContent(vbox);
     row.setExpanded(false);
 
-
-    // Add the TitledPane to the ResultPool
-    ResultPool.getChildren().add(row);
+    ResultWorkerUserPool.getChildren().add(row);
   }
   
   @FXML
@@ -250,10 +218,11 @@ public class userInsertionController implements Initializable {
 
     ResultDepartmentPool.getChildren().add(row);
   }
-
+  
+  
   @FXML
   public void searchWorkerUserController() {
-    ResultPool.getChildren().clear();
+    ResultWorkerUserPool.getChildren().clear();
 
     Map<String, String> filters = new HashMap<>();
     if (!full_name.getText().isEmpty()) {
@@ -312,8 +281,8 @@ public class userInsertionController implements Initializable {
       filters.put("department_name", department_name.getText());}
     if (department_description.getText() != null && !department_description.getText().isEmpty()) {
       filters.put("department_description", department_description.getText());}
-    if (DEP_fax.getText() != null && !DEP_fax.getText().isEmpty()) {
-      filters.put("fax", DEP_fax.getText());}
+    if (department_fax.getText() != null && !department_fax.getText().isEmpty()) {
+      filters.put("fax", department_fax.getText());}
 
 
     List<Map<String, Object>> departmentData = oracleConnector.departmentSearch(filters);
@@ -422,7 +391,7 @@ if ( supervisor.getValue()!=null) {
     departmentData.put("location", location.getText());
     departmentData.put("department_name", department_name.getText());
     departmentData.put("department_description", department_description.getText());
-    departmentData.put("fax", DEP_fax.getText());
+    departmentData.put("fax", department_fax.getText());
     oracleConnector.insertDepartment(departmentData);
   }
 

@@ -221,7 +221,7 @@
                                                 <Label text="Loaction" />
                                                 <Label text="Fax" GridPane.rowIndex="2" />
                                                 <Label text="Describtion" GridPane.rowIndex="3" />
-                                                <TextField fx:id="DEP_fax" promptText="Fax number" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                <TextField fx:id="department_fax" promptText="Fax number" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                                 <TextArea fx:id="department_description" prefHeight="200.0" prefWidth="200.0" promptText="AREA 51 ????" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                                    <GridPane.margin>
                                                       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
