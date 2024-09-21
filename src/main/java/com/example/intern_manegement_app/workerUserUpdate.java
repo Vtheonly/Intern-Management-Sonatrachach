@@ -54,7 +54,7 @@ public class workerUserUpdate implements Initializable {
         department.setItems(FXCollections.observableArrayList(departments));
         manager.setItems(FXCollections.observableArrayList(managers));
 
-        // Fill the fields and choice boxes with values from the params map
+        // Fill the fields and choice boxes with values from the parameters map
         fullName.setText(params.get("full_name"));
         email.setText(params.get("email_address"));
         phoneNumber.setText(params.get("phone_number"));

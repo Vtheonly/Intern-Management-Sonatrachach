@@ -27,6 +27,9 @@ import javax.swing.*;
 import java.io.FileOutputStream;
 import java.io.StringReader;
 
+import static com.example.intern_manegement_app.Toolkit.formatString;
+import static com.example.intern_manegement_app.Toolkit.parseText;
+
 public class interInsertionController implements Initializable {
 //  to exchange data in update and delete needs to be global
   static String labelText;
@@ -121,35 +124,6 @@ public class interInsertionController implements Initializable {
     }
   }
 
-// this func was AI generated
-  public static String formatString(String Info) {
-    // Remove the curly braces
-    Info = Info.substring(1, Info.length() - 1);
-
-    // Split the string by ", " to get key-value pairs
-    String[] pairs = Info.split(", ");
-
-    // Use a StringBuilder to construct the result string
-    StringBuilder result = new StringBuilder();
-
-    // Iterate over the pairs and format them
-    for (String pair : pairs) {
-      // Split each pair by "=" to get key and value
-      String[] keyValue = pair.split("=");
-      String key = keyValue[0];
-      String value = keyValue[1];
-
-      // Append formatted key-value to the result
-      result.append(key).append(" : ").append(value).append(",\n");
-    }
-
-    // Remove the trailing comma and newline
-    if (result.length() > 0) {
-      result.setLength(result.length() - 2);
-    }
-
-    return result.toString();
-  }
 
   @FXML
   public void insertInternController() {
@@ -245,7 +219,7 @@ try {
 
         // parses the innerTEXT of the "DOM" of the inside of the pane
         labelText = ((Label) ((AnchorPane) ((VBox)  DeleteButton.getParent()).getChildren().get(0)).getChildren().get(0)).getText();
-        Map<String, String> params=updateInternController.parseText(labelText);
+        Map<String, String> params=parseText(labelText);
         oracleConnector.deleteIntern(Integer.parseInt(params.get("intern_id")),params.get("name") );
       }
     });

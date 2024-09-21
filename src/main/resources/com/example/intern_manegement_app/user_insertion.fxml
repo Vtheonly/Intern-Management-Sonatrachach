@@ -85,7 +85,7 @@
                                                             <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="CENTER">
                                                                <children>
                                                                   <TextField fx:id="password" alignment="CENTER" prefHeight="25.0" prefWidth="99.0" promptText="Enter Paasword" HBox.hgrow="ALWAYS" />
-                                                                  <Button mnemonicParsing="false" onAction="#make_password" text="Gen" />
+                                                                  <Button mnemonicParsing="false" onAction="#makePassword" text="Gen" />
                                                                </children>
                                                             </HBox>
                                                             <Label text="Role" GridPane.rowIndex="6" />
@@ -106,8 +106,8 @@
                                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                   </rowConstraints>
                                                    <children>
-                                                      <Button fx:id="userSearch" mnemonicParsing="false" onAction="#workerUserSearch" text="Search" />
-                                                      <Button fx:id="userInsert" mnemonicParsing="false" onAction="#workerUserInsert" text="Insert" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
+                                                      <Button fx:id="userSearch" mnemonicParsing="false" onAction="#searchWorkerUserController" text="Search" />
+                                                      <Button fx:id="userInsert" mnemonicParsing="false" onAction="#insertWorkerUserController" text="Insert" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
                                                       <Button mnemonicParsing="false" onAction="#refresh" text="Refresh" GridPane.columnIndex="2" />
                                                    </children>
                                                 </GridPane>
@@ -178,8 +178,8 @@
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                              </rowConstraints>
                                              <children>
-                                                <Button fx:id="userSearch1" mnemonicParsing="false" onAction="#themeSearch" text="Search" />
-                                                <Button fx:id="userInsert1" mnemonicParsing="false" onAction="#insert_theme_Controller" text="Insert" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
+                                                <Button fx:id="userSearch1" mnemonicParsing="false" onAction="#searchThemeController" text="Search" />
+                                                <Button fx:id="userInsert1" mnemonicParsing="false" onAction="#insertThemeController" text="Insert" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
                                                 <Button mnemonicParsing="false" onAction="#refresh" text="Refresh" GridPane.columnIndex="2" />
                                              </children>
                                           </GridPane>
@@ -245,8 +245,8 @@
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                              </rowConstraints>
                                              <children>
-                                                <Button fx:id="userSearch11" mnemonicParsing="false" onAction="#departmentSearchController" text="Search" />
-                                                <Button fx:id="userInsert11" mnemonicParsing="false" onAction="#departmentInsertController" text="Insert" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
+                                                <Button fx:id="userSearch11" mnemonicParsing="false" onAction="#searchDepartmentController" text="Search" />
+                                                <Button fx:id="userInsert11" mnemonicParsing="false" onAction="#insertDepartmentController" text="Insert" GridPane.columnIndex="1" GridPane.valignment="CENTER" />
                                                 <Button mnemonicParsing="false" onAction="#refresh" text="Refresh" GridPane.columnIndex="2" />
                                              </children>
                                           </GridPane>
