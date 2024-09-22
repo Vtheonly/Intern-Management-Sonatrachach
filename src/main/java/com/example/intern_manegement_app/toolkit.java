@@ -1,10 +1,14 @@
 package com.example.intern_manegement_app;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Toolkit {
+public class toolkit {
 
 
     private static final SecureRandom RANDOM = new SecureRandom();
@@ -33,7 +37,14 @@ public class Toolkit {
     }
 
 
+//    public static String preProcess(String formatted){
+//
+//
+//        return "";
+//    }
+
     // this func was AI generated
+    // it makes it ready for the view in the pane
     public static String formatString(String Info) {
         // Remove the curly braces
         Info = Info.substring(1, Info.length() - 1);
@@ -73,6 +84,16 @@ public class Toolkit {
         return password.toString();
     }
 
+    public static String hashIt(String input) throws NoSuchAlgorithmException {
+        String result = input;
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hash = md.digest(result.getBytes(StandardCharsets.UTF_8));
+        return Base64.getEncoder().encodeToString(hash);
+    }
+
+    public static boolean isHashEqual(String Entered_hash, String hashed_pass){
+        return hashed_pass.equals(Entered_hash);
+    }
 
 
 

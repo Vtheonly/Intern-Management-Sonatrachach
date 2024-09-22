@@ -25,6 +25,7 @@ public class oracleConnector {
       e.printStackTrace();
     }
   }
+
   public static void closeConnection() {
     try {
       if (connection != null) {
@@ -36,8 +37,6 @@ public class oracleConnector {
       e.printStackTrace();
     }
   }
-//==========================================================
-
 
   public static boolean isAdmin(String username, String password) {
     String query = "SELECT \"role_id\" FROM \"worker_user\" WHERE \"username\" = ? AND \"password_hash\" = ?";
@@ -56,6 +55,7 @@ public class oracleConnector {
     }
     return false;
   }
+
   public static boolean isChief(String username, String password) {
     String query = "SELECT \"role_id\" FROM \"worker_user\" WHERE \"username\" = ? AND \"password_hash\" = ?";
     try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -73,6 +73,7 @@ public class oracleConnector {
     }
     return false;
   }
+
   public static boolean login(String username, String password) {
     String query = "SELECT COUNT(*) FROM \"worker_user\" WHERE \"username\" = ? AND \"password_hash\" = ?";
     try (PreparedStatement preparedStatement =connection.prepareStatement(query)) {
@@ -89,13 +90,16 @@ public class oracleConnector {
       e.printStackTrace();
     }
     return false;}
-  private static boolean columnExists(String tableName, String columnName, Connection connection) {
+
+  private static boolean isColumnExist(String tableName, String columnName, Connection connection) {
       try (ResultSet columns = connection.getMetaData().getColumns(null, null, tableName, columnName)) {
         return columns.next();
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }
     }
+
+
 
 
   public static void insertIntern(HashMap<String, Object> internData) {
@@ -138,6 +142,7 @@ public class oracleConnector {
       try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
+
   public static void insertTheme(HashMap<String, Object> themeData) {
     PreparedStatement pstmt = null;
 
@@ -177,6 +182,7 @@ public class oracleConnector {
       try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
     }
   }
+
   public static void insertWorkerUser(Map<String, String> workerUserData) throws SQLException {
     // Construct the SQL INSERT statement
     StringBuilder columns = new StringBuilder();
@@ -212,6 +218,7 @@ public class oracleConnector {
       throw e; // Propagate the exception to the caller
     }
   }
+
   public static void insertDepartment(HashMap<String, Object> departmentData) {
     PreparedStatement pstmt = null;
 
@@ -255,54 +262,8 @@ public class oracleConnector {
 
 
 
-  public static Integer getMaxId(String tableName, String columnName) {
-    Statement stmt = null;
-    ResultSet rs = null;
-    Integer maxId = null;
 
-    try {
-      // Create a statement
-      stmt = connection.createStatement();
 
-      // Execute the query to get the maximum value of the specified column
-      String query = "SELECT MAX(\"" + columnName + "\") FROM \"" + tableName + "\"";
-      rs = stmt.executeQuery(query);
-
-      // Retrieve the result using column index
-      if (rs.next()) {
-        maxId = rs.getInt(1); // Get the value from the first column of the result set
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      // Close resources
-      try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
-      try { if (stmt != null) stmt.close(); } catch (Exception e) { e.printStackTrace(); }
-    }
-
-    return maxId;
-  }
-
-  public static ArrayList<String> getSelectableOptions(String table, String column) {
-    ArrayList<String> result = new ArrayList<>();
-    if (!columnExists(table, column, connection)) {
-      throw new IllegalArgumentException("Table or column does not exist in the database.");
-    }
-    String query = "SELECT \"" + column + "\" FROM \"" + table + "\"";
-    try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        while (resultSet.next()) {
-          String rowValue = resultSet.getString(1);
-          result.add(rowValue);
-        }
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return result;
-  }
 
   public static List<Map<String, Object>> searchTheme(HashMap<String, Object> filters) {
     PreparedStatement pstmt = null;
@@ -336,6 +297,12 @@ public class oracleConnector {
         row.put("theme_id", rs.getInt("theme_id"));
         row.put("description", rs.getString("description"));
         row.put("theme_name", rs.getString("theme_name"));
+        row.put("theme_responsible",
+
+
+                rs.getString("responsible")
+
+        );
         row.put("department_id", rs.getInt("department_id"));
         results.add(row);
       }
@@ -350,7 +317,8 @@ public class oracleConnector {
 
     return results;
   }
-  public static List<Map<String, Object>> departmentSearch(Map<String, String> filters) {
+
+  public static List<Map<String, Object>> searchDepartment(Map<String, String> filters) {
     List<Map<String, Object>> departmentList = new ArrayList<>();
     PreparedStatement pstmt = null;
     ResultSet rs = null;
@@ -391,8 +359,7 @@ public class oracleConnector {
     return departmentList;
   }
 
-
-  public static List<Map<String, Object>> getInternRows(Map<String, String> filters) {
+  public static List<Map<String, Object>> searchIntern(Map<String, String> filters) {
     StringBuilder queryBuilder = new StringBuilder("SELECT * FROM \"intern\"");
     List<String> params = new ArrayList<>();
 
@@ -456,24 +423,7 @@ public class oracleConnector {
     return result;
   }
 
-  public static Integer getThemeIdByName(String themeName) {
-    String query = "SELECT \"theme_id\" FROM \"theme\" WHERE \"theme_name\" =?";
-    Integer themeId = null;
-
-    try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-      preparedStatement.setString(1, themeName);
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        if (resultSet.next()) {
-          themeId = resultSet.getInt("theme_id");
-        }
-      }
-    } catch (SQLException e) {
-      System.err.println("Failed to execute query: " + e.getMessage());
-    }
-    return themeId;
-  }
-
-  public static List<Map<String, Object>> getWorkerUserRows(Map<String, String> filters) {
+  public static List<Map<String, Object>> searchWorkerUser(Map<String, String> filters) {
     StringBuilder queryBuilder = new StringBuilder("SELECT * FROM \"worker_user\"");
     List<String> params = new ArrayList<>();
 
@@ -529,6 +479,12 @@ public class oracleConnector {
     return result;
   }
 
+
+
+
+
+
+
   public static Integer getIdByName(String tableName, String name) {
     Integer id = null;
     String columnName = "";
@@ -543,8 +499,13 @@ public class oracleConnector {
       case "role":
         columnName = "role_id";
         break;
-      case "worker_user":
+      case "worker_user_user":
+        columnName = "user_id";
+        tableName="worker_user";
+        break;
+      case "worker_user_super":
         columnName = "supervisor_id";
+        tableName="worker_user";
         break;
       case "department":
         columnName = "department_id";
@@ -570,6 +531,7 @@ public class oracleConnector {
     }
 
 
+
     try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
       preparedStatement.setString(1, name);
 
@@ -587,8 +549,25 @@ public class oracleConnector {
     return id;
   }
 
+  public static String getNameById(int id, String table, String ID_column ,String Name_column) {
+    String query = "SELECT \"" + Name_column + "\" FROM \"" + table + "\" WHERE \""+ID_column+"\" = ?";
+    try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+      preparedStatement.setInt(1, id);
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        if (resultSet.next()) {
+          return resultSet.getString(Name_column);
+        }
+      }
+    } catch (SQLException e) {
+      System.out.println("Failed to execute query.");
+      JOptionPane.showMessageDialog(null, "Failed to execute query. ", "Information", JOptionPane.INFORMATION_MESSAGE);
 
-  public static int getWorkerUserId(String username, String password) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public static Integer getUserAccessLevel(String username, String password) {
     int roleId = -1;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
@@ -630,56 +609,58 @@ public class oracleConnector {
     return roleId;
   }
 
-  public static String getNameById(int id, String table, String ID_column ,String column) {
-    String query = "SELECT \"" + column + "\" FROM \"" + table + "\" WHERE \""+ID_column+"\" = ?";
+  public static ArrayList<String> getSelectableOptions(String table, String column) {
+    ArrayList<String> result = new ArrayList<>();
+    if (!isColumnExist(table, column, connection)) {
+      throw new IllegalArgumentException("Table or column does not exist in the database.");
+    }
+    String query = "SELECT \"" + column + "\" FROM \"" + table + "\"";
     try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-      preparedStatement.setInt(1, id);
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        if (resultSet.next()) {
-          return resultSet.getString(column);
+        while (resultSet.next()) {
+          String rowValue = resultSet.getString(1);
+          result.add(rowValue);
         }
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
       }
     } catch (SQLException e) {
-      System.out.println("Failed to execute query.");
-      JOptionPane.showMessageDialog(null, "Failed to execute query. ", "Information", JOptionPane.INFORMATION_MESSAGE);
-
-      e.printStackTrace();
+      throw new RuntimeException(e);
     }
-    return null;
+    return result;
   }
 
-  public static void internDecision(boolean isAccepted, String name, int id) {
-    // Define the query to update the "IS_ACCEPTED" column
-    String query = "UPDATE \"intern\" SET \"IS_ACCEPTED\" = ? WHERE \"name\" = ? AND \"intern_id\" = ?";
+  public static Integer getMaxId(String tableName, String columnName) {
+    Statement stmt = null;
+    ResultSet rs = null;
+    Integer maxId = null;
 
-    try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-      // Set the "IS_ACCEPTED" value based on the boolean parameter
-      if (isAccepted) {
-        preparedStatement.setString(1, "Accepted");
-      } else {
-        preparedStatement.setString(1, "Rejected");
+    try {
+      // Create a statement
+      stmt = connection.createStatement();
+
+      // Execute the query to get the maximum value of the specified column
+      String query = "SELECT MAX(\"" + columnName + "\") FROM \"" + tableName + "\"";
+      rs = stmt.executeQuery(query);
+
+      // Retrieve the result using column index
+      if (rs.next()) {
+        maxId = rs.getInt(1); // Get the value from the first column of the result set
       }
-
-      // Set the name and ID parameters in the query
-      preparedStatement.setString(2, name);
-      preparedStatement.setInt(3, id);
-
-      // Execute the update
-      int rowsAffected = preparedStatement.executeUpdate();
-
-      if (rowsAffected > 0) {
-        System.out.println("Intern decision updated successfully.");
-      } else {
-        System.out.println("No intern found with the provided name and ID.");
-      }
-    } catch (SQLException e) {
-      System.err.println("Failed to execute update: " + e.getMessage());
-
-      JOptionPane.showMessageDialog(null, "Failed to execute update. ", "Information", JOptionPane.INFORMATION_MESSAGE);
-
+    } catch (Exception e) {
       e.printStackTrace();
+    } finally {
+      // Close resources
+      try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+      try { if (stmt != null) stmt.close(); } catch (Exception e) { e.printStackTrace(); }
     }
+
+    return maxId;
   }
+
+
+
+
 
 
   public static void updateInter(Map<String, String> whereParams, Map<String, String> newUpdateParams) {
@@ -798,6 +779,39 @@ public class oracleConnector {
     }
   }
 
+  public static void updateChiefDecision(boolean isAccepted, String name, int id) {
+    // Define the query to update the "IS_ACCEPTED" column
+    String query = "UPDATE \"intern\" SET \"IS_ACCEPTED\" = ? WHERE \"name\" = ? AND \"intern_id\" = ?";
+
+    try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+      // Set the "IS_ACCEPTED" value based on the boolean parameter
+      if (isAccepted) {
+        preparedStatement.setString(1, "Accepted");
+      } else {
+        preparedStatement.setString(1, "Rejected");
+      }
+
+      // Set the name and ID parameters in the query
+      preparedStatement.setString(2, name);
+      preparedStatement.setInt(3, id);
+
+      // Execute the update
+      int rowsAffected = preparedStatement.executeUpdate();
+
+      if (rowsAffected > 0) {
+        System.out.println("Intern decision updated successfully.");
+      } else {
+        System.out.println("No intern found with the provided name and ID.");
+      }
+    } catch (SQLException e) {
+      System.err.println("Failed to execute update: " + e.getMessage());
+
+      JOptionPane.showMessageDialog(null, "Failed to execute update. ", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+      e.printStackTrace();
+    }
+  }
+
 
 
 
@@ -899,6 +913,7 @@ public class oracleConnector {
   }
 
 
+
   public static void setAllInternsAccepted() {
     String query = "UPDATE \"intern\" SET \"IS_ACCEPTED\" = 'Accepted'";
 
@@ -911,7 +926,6 @@ public class oracleConnector {
     }
   }
 
-  // Function to set all interns to REJECTED
   public static void setAllInternsRejected() {
     String query = "UPDATE \"intern\" SET \"IS_ACCEPTED\" = 'Rejected'";
 
@@ -923,6 +937,5 @@ public class oracleConnector {
       JOptionPane.showMessageDialog(null, "Failed to execute update: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
   }
-
 
 }

@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="419.0" prefWidth="647.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.intern_manegement_app.userInsertionController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="419.0" prefWidth="647.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.intern_manegement_app.insertionUserController">
    <children>
       <TabPane layoutX="56.0" prefHeight="408.0" prefWidth="617.3333333333334" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <tabs>
@@ -139,36 +139,43 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <SplitPane dividerPositions="0.38986556359875907" layoutX="63.0" layoutY="35.0" prefHeight="390.0" prefWidth="647.3333333333334" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <SplitPane dividerPositions="0.38986556359875907" layoutX="63.0" layoutY="35.0" prefHeight="390.4" prefWidth="647.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="387.0" prefWidth="231.0">
                                  <children>
-                                    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <VBox prefHeight="388.8" prefWidth="248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <GridPane prefHeight="324.0" prefWidth="248.0">
-                                            <columnConstraints>
-                                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                            </columnConstraints>
-                                            <rowConstraints>
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            </rowConstraints>
-                                             <children>
-                                                <Label text="Departement:" GridPane.rowIndex="1" />
-                                                <Label text="Name" />
-                                                <Label text="Describtion" GridPane.rowIndex="2" />
-                                                <TextField fx:id="theme_name" promptText="theme_name" GridPane.columnIndex="1" />
-                                                <ChoiceBox fx:id="Theme_department" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                                <TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" promptText="what is the theme about" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                                   <GridPane.margin>
-                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                                   </GridPane.margin>
-                                                </TextArea>
-                                             </children>
-                                          </GridPane>
-                                          <GridPane prefHeight="65.0" prefWidth="263.0">
+                                          <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="330.0" prefWidth="248.0" VBox.vgrow="NEVER">
+                                             <content>
+                                                <GridPane prefHeight="324.0" prefWidth="248.0">
+                                                  <columnConstraints>
+                                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="141.19998168945312" minWidth="10.0" prefWidth="102.79998779296875" />
+                                                    <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="143.20001220703125" minWidth="10.0" prefWidth="143.20001220703125" />
+                                                  </columnConstraints>
+                                                  <rowConstraints>
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                  </rowConstraints>
+                                                   <children>
+                                                      <Label text="Departement:" GridPane.rowIndex="1" />
+                                                      <Label text="Name" />
+                                                      <Label text="Describtion" GridPane.rowIndex="3" />
+                                                      <TextField fx:id="theme_name" promptText="theme_name" GridPane.columnIndex="1" />
+                                                      <ChoiceBox fx:id="Theme_department" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                      <TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" promptText="what is the theme about" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                                         <GridPane.margin>
+                                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                         </GridPane.margin>
+                                                      </TextArea>
+                                                      <ChoiceBox fx:id="theme_responsible" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                      <Label text="Responsible" GridPane.rowIndex="2" />
+                                                   </children>
+                                                </GridPane>
+                                             </content>
+                                          </ScrollPane>
+                                          <GridPane VBox.vgrow="ALWAYS">
                                              <columnConstraints>
                                                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -204,38 +211,42 @@
                            <items>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="387.0" prefWidth="231.0">
                                  <children>
-                                    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <VBox fillWidth="false" prefHeight="388.8" prefWidth="248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <GridPane prefHeight="387.3333333333333" prefWidth="189.33333333333334">
-                                             <columnConstraints>
-                                                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                             </columnConstraints>
-                                             <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                             </rowConstraints>
-                                             <children>
-                                                <Label text="Loaction" />
-                                                <Label text="Fax" GridPane.rowIndex="2" />
-                                                <Label text="Describtion" GridPane.rowIndex="3" />
-                                                <TextField fx:id="department_fax" promptText="Fax number" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                                <TextArea fx:id="department_description" prefHeight="200.0" prefWidth="200.0" promptText="AREA 51 ????" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                                   <GridPane.margin>
+                                          <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="326.0" prefWidth="248.0" VBox.vgrow="ALWAYS">
+                                             <content>
+                                                <GridPane prefHeight="341.0" prefWidth="246.0">
+                                                   <columnConstraints>
+                                                      <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+                                                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                   </columnConstraints>
+                                                   <rowConstraints>
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                   </rowConstraints>
+                                                   <children>
+                                                      <Label text="Loaction" />
+                                                      <Label text="Fax" GridPane.rowIndex="2" />
+                                                      <Label text="Describtion" GridPane.rowIndex="3" />
+                                                      <TextField fx:id="department_fax" promptText="Fax number" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                      <TextArea fx:id="department_description" prefHeight="200.0" prefWidth="200.0" promptText="AREA 51 ????" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                                         <GridPane.margin>
+                                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                         </GridPane.margin>
+                                                      </TextArea>
+                                                      <TextField fx:id="location" promptText="Loacation" GridPane.columnIndex="1" />
+                                                      <Label text="Departemnt Name" GridPane.rowIndex="1" />
+                                                      <TextField fx:id="department_name" promptText="Departement_name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                   </children>
+                                                   <opaqueInsets>
                                                       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                                   </GridPane.margin>
-                                                </TextArea>
-                                                <TextField fx:id="location" promptText="Loacation" GridPane.columnIndex="1" />
-                                                <Label text="Departemnt Name" GridPane.rowIndex="1" />
-                                                <TextField fx:id="department_name" promptText="Departement_name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                             </children>
-                                             <opaqueInsets>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </opaqueInsets>
-                                          </GridPane>
-                                          <GridPane prefHeight="118.0" prefWidth="248.0">
+                                                   </opaqueInsets>
+                                                </GridPane>
+                                             </content>
+                                          </ScrollPane>
+                                          <GridPane prefHeight="44.0" prefWidth="248.0" VBox.vgrow="ALWAYS">
                                              <columnConstraints>
                                                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

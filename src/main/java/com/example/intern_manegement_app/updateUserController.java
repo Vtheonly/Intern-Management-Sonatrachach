@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static com.example.intern_manegement_app.Toolkit.parseText;
+import static com.example.intern_manegement_app.toolkit.parseText;
 
-public class workerUserUpdate implements Initializable {
+public class updateUserController implements Initializable {
 
     @FXML
     private TextField username;
@@ -37,7 +37,7 @@ public class workerUserUpdate implements Initializable {
     @FXML
     private TextField email;
 
-    final String CURRENT_UPDATE_PARAM = userInsertionController.sendConstraint();
+    final String CURRENT_UPDATE_PARAM = insertionUserController.sendConstraint();
     Map<String, String> params = parseText(CURRENT_UPDATE_PARAM);
 
     @Override
@@ -97,7 +97,7 @@ public class workerUserUpdate implements Initializable {
         paramsMap.put("department_id",
                 oracleConnector.getIdByName("department" , department.getValue()).toString());
         paramsMap.put("supervisor_id",
-                oracleConnector.getIdByName("worker_user" , manager.getValue()).toString());
+                oracleConnector.getIdByName("worker_user_super" , manager.getValue()).toString());
 
         oracleConnector.updateWorkerUser(paramsNext,paramsMap);
     }

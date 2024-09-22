@@ -41,8 +41,8 @@ public class updateInternController implements Initializable {
         ArrayList<String> themes = oracleConnector.getSelectableOptions("theme", "theme_name");
         themeChoiceBox.setItems(FXCollections.observableArrayList(themes));
 
-        final String CURRENT_UPDATE_PARAM=interInsertionController.sendConstraint();
-        parameters = Toolkit.parseText( CURRENT_UPDATE_PARAM );
+        final String CURRENT_UPDATE_PARAM= insertionInternController.sendConstraint();
+        parameters = toolkit.parseText( CURRENT_UPDATE_PARAM );
 
         fullNameField.setText(parameters.get("name"));
         emailField.setText(parameters.get("email"));

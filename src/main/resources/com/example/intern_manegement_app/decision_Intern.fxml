@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<SplitPane dividerPositions="0.45189355168884343" prefHeight="403.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.intern_manegement_app.DecisionIntern">
+<SplitPane dividerPositions="0.45189355168884343" prefHeight="403.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.intern_manegement_app.chiefDecisionController">
    <items>
       <BorderPane prefHeight="400.0" prefWidth="0.0">
          <bottom>

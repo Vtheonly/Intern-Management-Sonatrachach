@@ -12,6 +12,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
+import static com.example.intern_manegement_app.toolkit.hashIt;
+
 public class loginController {
   @FXML private TextField username;
   @FXML private PasswordField password;
@@ -19,10 +21,10 @@ public class loginController {
   Stage loginWindow ;
   public void onLoginClick() throws NoSuchAlgorithmException {
     loginWindow = (Stage) loginP.getScene().getWindow();
-    if (oracleConnector.login(username.getText(),Hasher.hash_it(password.getText()))) {
+    if (oracleConnector.login(username.getText(), hashIt(password.getText()))) {
       JOptionPane.showMessageDialog(null, "Access Granted. ", "Information", JOptionPane.INFORMATION_MESSAGE);
       // admin
-      if (oracleConnector.isAdmin(username.getText(),  Hasher.hash_it(password.getText()))) {
+      if (oracleConnector.isAdmin(username.getText(),  hashIt(password.getText()))) {
         try {
           FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("user_insertion.fxml"));
           Parent root = fxmlLoader.load();
@@ -34,7 +36,7 @@ public class loginController {
           e.printStackTrace();
         }}
       // chief
-      else if (oracleConnector.isChief(username.getText(),  Hasher.hash_it(password.getText()))){
+      else if (oracleConnector.isChief(username.getText(),  hashIt(password.getText()))){
         try {
           FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("decision_Intern.fxml"));
           Parent root = fxmlLoader.load();
@@ -52,8 +54,8 @@ public class loginController {
         try {
           FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("intern_insertion.fxml"));
           Parent root = fxmlLoader.load();
-          interInsertionController controller = fxmlLoader.getController();
-          int accessLevel =oracleConnector.getWorkerUserId(username.getText(), Hasher.hash_it(password.getText()));
+          insertionInternController controller = fxmlLoader.getController();
+          int accessLevel =oracleConnector.getUserAccessLevel(username.getText(), hashIt(password.getText()));
           controller.setAccessLevel(accessLevel);
           Stage stage = new Stage();
           stage.setScene(new Scene(root));

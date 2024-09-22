@@ -17,20 +17,20 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import javax.swing.*;
 
-import static com.example.intern_manegement_app.Toolkit.formatString;
-import static com.example.intern_manegement_app.Toolkit.generatePassword;
+import static com.example.intern_manegement_app.toolkit.*;
 
-public class userInsertionController implements Initializable {
+public class insertionUserController implements Initializable {
 
   static String labelText;
   
   // Search tab part
-  @FXML private VBox ResultWorkerUserPool;
+  @FXML private VBox ResultPool;
   @FXML private VBox ResultThemePool;
   @FXML private VBox ResultDepartmentPool;
 
@@ -51,6 +51,7 @@ public class userInsertionController implements Initializable {
   @FXML private TextArea description;
   @FXML private TextField theme_name;
   @FXML private ChoiceBox<String> Theme_department;
+  @FXML private ChoiceBox<String> theme_responsible;
   // department part
   @FXML private TextField location;
   @FXML private TextField department_name;
@@ -71,7 +72,7 @@ public class userInsertionController implements Initializable {
     Theme_department.setItems(FXCollections.observableArrayList(departments));
           supervisor.setItems(FXCollections.observableArrayList(supervisors));
            role_type.setItems(FXCollections.observableArrayList(roles));
-
+           theme_responsible.setItems(FXCollections.observableArrayList(supervisors));
 
     // statics part pie charts
     ObservableList<PieChart.Data> pieChartDataThemes = FXCollections.observableArrayList(
@@ -112,7 +113,7 @@ public class userInsertionController implements Initializable {
     supervisor.getSelectionModel().clearSelection();
     role_type.getSelectionModel().clearSelection();
     Theme_department.getSelectionModel().clearSelection();
-    ResultWorkerUserPool.getChildren().clear();
+    ResultPool.getChildren().clear();
   }
   
 //  todo : put "addtopools" this into a separate  class with the polls as argument
@@ -126,8 +127,10 @@ public class userInsertionController implements Initializable {
     Button buttonDel = new Button("Delete");
 
     buttonDel.setOnAction(event -> {
-      labelText = ((Label) ((AnchorPane) ((VBox) buttonDel.getParent()).getChildren().get(0)).getChildren().get(0)).getText();
-      Map<String, String> params = Toolkit.parseText(labelText);
+
+      labelText = ((Label) ((AnchorPane) ((VBox) ((HBox) buttonDel.getParent()).getParent()).getChildren().get(0)).getChildren().get(0)).getText();
+
+      Map<String, String> params = toolkit.parseText(labelText);
       oracleConnector.deleteTheme(Integer.parseInt(params.get("theme_id")),params.get("theme_name"));
     });
 
@@ -135,8 +138,13 @@ public class userInsertionController implements Initializable {
     innerLabel.prefWidthProperty().bind(content.widthProperty());
     content.getChildren().add(innerLabel);
 
+
+    HBox buttonBox = new HBox(10, buttonDel);
+    buttonBox.setAlignment(Pos.CENTER_RIGHT);
+
+
     VBox vbox = new VBox(10); 
-    vbox.getChildren().addAll(content, buttonDel);
+    vbox.getChildren().addAll(content, buttonBox);
     vbox.setAlignment(Pos.CENTER); 
 
     TitledPane row = new TitledPane();
@@ -150,6 +158,8 @@ public class userInsertionController implements Initializable {
   @FXML
   public void addToWorkerUserPool(String Title, String Info) {
 
+
+
     Label innerLabel = new Label(formatString(Info));
     innerLabel.setWrapText(true);
     AnchorPane.setLeftAnchor(innerLabel, 0.0);
@@ -157,14 +167,17 @@ public class userInsertionController implements Initializable {
 
     Button updateButton = new Button("Update");
     Button deleteButton = new Button("Delete");
+
     deleteButton.setOnAction(event -> {
-      labelText = ((Label) ((AnchorPane) ((VBox)  deleteButton.getParent()).getChildren().get(0)).getChildren().get(0)).getText();
-      Map<String, String> params=Toolkit.parseText(labelText);
+      Map<String, String> params= toolkit.parseText(formatString(Info));
       oracleConnector.deleteWorkerUser(Integer.parseInt(params.get("user_id")),params.get("full_name") );
     });
+
+
     updateButton.setOnAction(event -> {
 
-      labelText = ((Label) ((AnchorPane) ((VBox) updateButton.getParent()).getChildren().get(0)).getChildren().get(0)).getText();
+
+      labelText = ((Label) ((AnchorPane) ((VBox) ((HBox) deleteButton.getParent()).getParent()).getChildren().get(0)).getChildren().get(0)).getText();
 
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("update_worker_user.fxml"));
       Parent root = null;
@@ -182,8 +195,12 @@ public class userInsertionController implements Initializable {
     innerLabel.prefWidthProperty().bind(content.widthProperty());
     content.getChildren().add(innerLabel);
 
-    VBox vbox = new VBox(10); 
-    vbox.getChildren().addAll(content, updateButton,deleteButton);
+
+    HBox buttonBox = new HBox(10, updateButton,deleteButton);
+    buttonBox.setAlignment(Pos.CENTER_RIGHT);
+
+    VBox vbox = new VBox(10);
+    vbox.getChildren().addAll(content, buttonBox);
     vbox.setAlignment(Pos.CENTER);
 
     TitledPane row = new TitledPane();
@@ -191,7 +208,7 @@ public class userInsertionController implements Initializable {
     row.setContent(vbox);
     row.setExpanded(false);
 
-    ResultWorkerUserPool.getChildren().add(row);
+    ResultPool.getChildren().add(row);
   }
   
   @FXML
@@ -201,28 +218,48 @@ public class userInsertionController implements Initializable {
     AnchorPane.setLeftAnchor(innerLabel, 0.0);
     AnchorPane.setRightAnchor(innerLabel, 0.0);
 
-    Button buttonDel = new Button("Delete");
-
     AnchorPane content = new AnchorPane();
     innerLabel.prefWidthProperty().bind(content.widthProperty());
     content.getChildren().add(innerLabel);
 
+
+
+    Button deleteButton = new Button("Delete");
+    Button updateButton = new Button("Update");
+
+    deleteButton.setOnAction(event -> {
+
+      labelText = ((Label) ((AnchorPane) ((VBox) ((HBox) deleteButton.getParent()).getParent()).getChildren().get(0)).getChildren().get(0)).getText();
+      Map<String, String> params= toolkit.parseText(labelText);
+      oracleConnector.deleteDepartment(Integer.parseInt(params.get("department_id")),params.get("department_name") );
+    });
+
+
+
+
+
+
+
+
+
+    HBox buttonBox = new HBox(10, updateButton,deleteButton);
+    buttonBox.setAlignment(Pos.CENTER_RIGHT);
+
+
     VBox vbox = new VBox(10);
-    vbox.getChildren().addAll(content, buttonDel);
+    vbox.getChildren().addAll(content, buttonBox);
     vbox.setAlignment(Pos.CENTER);
 
     TitledPane row = new TitledPane();
     row.setText(title);
     row.setContent(vbox);
     row.setExpanded(false);
-
     ResultDepartmentPool.getChildren().add(row);
   }
-  
-  
+
   @FXML
   public void searchWorkerUserController() {
-    ResultWorkerUserPool.getChildren().clear();
+    ResultPool.getChildren().clear();
 
     Map<String, String> filters = new HashMap<>();
     if (!full_name.getText().isEmpty()) {
@@ -258,10 +295,10 @@ public class userInsertionController implements Initializable {
     }
 
     if (supervisor.getValue() != null) {
-      filters.put("supervisor_id", String.valueOf(oracleConnector.getIdByName("worker_user", supervisor.getValue())));
+      filters.put("supervisor_id", String.valueOf(oracleConnector.getIdByName("worker_user_super", supervisor.getValue())));
     }
 
-    List<Map<String, Object>> workerUserData = oracleConnector.getWorkerUserRows(filters);
+    List<Map<String, Object>> workerUserData = oracleConnector.searchWorkerUser(filters);
 
     for (Map<String, Object> workerUser : workerUserData) {
       String name = workerUser.get("full_name") != null ? workerUser.get("full_name").toString() : "Unknown";
@@ -285,7 +322,7 @@ public class userInsertionController implements Initializable {
       filters.put("fax", department_fax.getText());}
 
 
-    List<Map<String, Object>> departmentData = oracleConnector.departmentSearch(filters);
+    List<Map<String, Object>> departmentData = oracleConnector.searchDepartment(filters);
 
     for (Map<String, Object> department : departmentData) {
       String name = department.get("department_name") != null ? department.get("department_name").toString() : "Unknown";
@@ -317,7 +354,8 @@ public class userInsertionController implements Initializable {
       addToThemePool(name, themeString);
     }
   }
-  
+
+
   @FXML
   public void insertWorkerUserController() throws SQLException, NoSuchAlgorithmException {
 
@@ -329,7 +367,7 @@ public class userInsertionController implements Initializable {
     insertParameters.put("email_address", email_address.getText());
     insertParameters.put("phone_number", phone_number.getText());
     insertParameters.put("fax_number", fax_number.getText());
-    insertParameters.put("password_hash", Hasher.hash_it(password.getText()));
+    insertParameters.put("password_hash", hashIt(password.getText()));
 
 
 if (role_type.getValue()!=null) {
@@ -340,14 +378,13 @@ if (role_type.getValue()!=null) {
 
 if ( Department.getValue()!=null) {
     insertParameters.put("department_id",
-            oracleConnector.getIdByName("department" , Department.getValue().toString()).toString()
-    );
+            oracleConnector.getIdByName("department" , Department.getValue().toString()).toString());
 } else{insertParameters.put("department","");}
 
 
 if ( supervisor.getValue()!=null) {
     insertParameters.put("supervisor_id",
-            oracleConnector.getIdByName("worker_user" , supervisor.getValue().toString()).toString()
+            oracleConnector.getIdByName("worker_user_super" , supervisor.getValue().toString()).toString()
     );
 } else{insertParameters.put("supervisor_id","");}
 
@@ -375,6 +412,12 @@ if ( supervisor.getValue()!=null) {
     themeData.put("theme_id", newThemeId);
     themeData.put("theme_name", theme_name.getText());
     themeData.put("description", description.getText());
+
+    String responsibleName =theme_responsible.getValue();
+    if(responsibleName != null && !responsibleName.isEmpty()){
+      Integer responsibleID= oracleConnector.getIdByName("worker_user_user", responsibleName);
+      themeData.put("responsible",responsibleID);}
+
     String departmentName = Theme_department.getValue();
     if (departmentName != null && !departmentName.isEmpty()) {
       Integer departmentId = oracleConnector.getIdByName("department", departmentName);

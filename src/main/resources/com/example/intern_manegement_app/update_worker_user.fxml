@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.intern_manegement_app.workerUserUpdate">
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.intern_manegement_app.updateUserController">
    <center>
       <ScrollPane hbarPolicy="NEVER" hvalue="1.0" prefHeight="373.0" prefWidth="603.0" vvalue="1.0">
          <content>

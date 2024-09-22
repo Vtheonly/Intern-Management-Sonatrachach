@@ -13,7 +13,10 @@ import javafx.scene.text.TextAlignment;
 import java.net.URL;
 import java.util.*;
 
-public class DecisionIntern  implements Initializable {
+import static com.example.intern_manegement_app.toolkit.formatString;
+import static com.example.intern_manegement_app.toolkit.parseText;
+
+public class chiefDecisionController implements Initializable {
 
     @FXML
     private TextField fullNameField;
@@ -46,7 +49,7 @@ public class DecisionIntern  implements Initializable {
         }
 
 
-        List<Map<String, Object>> internData = oracleConnector.getInternRows(filters);
+        List<Map<String, Object>> internData = oracleConnector.searchIntern(filters);
 
 
         for (Map<String, Object> intern : internData) {
@@ -81,20 +84,20 @@ public class DecisionIntern  implements Initializable {
     }
     public void addToPool(String Title, String Info, String isAccepted, String Theme) {
         // Create a Label with formatted text and enable text wrapping
-        Label innerLabel = new Label(interInsertionController.formatString(Info));
+        Label innerLabel = new Label(formatString(Info));
         innerLabel.setWrapText(true);
 
-        String internID = updateInternController.parseText( innerLabel.getText()).get("intern_id");
-        String InternName = updateInternController.parseText( innerLabel.getText()).get("name");
+        String internID = parseText( innerLabel.getText()).get("intern_id");
+        String InternName = parseText( innerLabel.getText()).get("name");
 
         Button acceptButton = new Button("Accept");
         acceptButton.setOnAction(event -> {
-            oracleConnector.internDecision(true,InternName,Integer.parseInt(internID));
+            oracleConnector.updateChiefDecision(true,InternName,Integer.parseInt(internID));
         });
 
         Button rejectButton = new Button("Reject");
         rejectButton.setOnAction(event -> {
-            oracleConnector.internDecision(false,InternName,Integer.parseInt(internID));
+            oracleConnector.updateChiefDecision(false,InternName,Integer.parseInt(internID));
         });
 
         HBox buttonBox = new HBox(10, acceptButton, rejectButton);

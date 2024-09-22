@@ -27,10 +27,10 @@ import javax.swing.*;
 import java.io.FileOutputStream;
 import java.io.StringReader;
 
-import static com.example.intern_manegement_app.Toolkit.formatString;
-import static com.example.intern_manegement_app.Toolkit.parseText;
+import static com.example.intern_manegement_app.toolkit.formatString;
+import static com.example.intern_manegement_app.toolkit.parseText;
 
-public class interInsertionController implements Initializable {
+public class insertionInternController implements Initializable {
 //  to exchange data in update and delete needs to be global
   static String labelText;
 
@@ -129,7 +129,7 @@ public class interInsertionController implements Initializable {
   public void insertInternController() {
 
     HashMap<String, Object> internData = new HashMap<>();
-//    the autoincrement was unstable and required triggers
+//  the autoincrement was unstable and required triggers
     int newInternId = oracleConnector.getMaxId("intern", "intern_id") + 1;
 
     internData.put("intern_id", newInternId);
@@ -218,7 +218,9 @@ try {
       if (confirmationAlert.showAndWait().get() == javafx.scene.control.ButtonType.OK) {
 
         // parses the innerTEXT of the "DOM" of the inside of the pane
-        labelText = ((Label) ((AnchorPane) ((VBox)  DeleteButton.getParent()).getChildren().get(0)).getChildren().get(0)).getText();
+        labelText = ((Label) ((AnchorPane) ((VBox) ((HBox) DeleteButton.getParent()).getParent()).getChildren().get(0)).getChildren().get(0)).getText();
+
+
         Map<String, String> params=parseText(labelText);
         oracleConnector.deleteIntern(Integer.parseInt(params.get("intern_id")),params.get("name") );
       }
@@ -242,16 +244,16 @@ try {
     //  TODO add a print functionality
 //  PrintButton.setOnAction(event ->{});
 
-    // Create a VBox to hold the content and the buttonbox
-    VBox vbox = new VBox(10); // Set spacing between children
+    VBox vbox = new VBox(10);
 
     HBox buttonBox = new HBox(10,  UpdateButton,DeleteButton,PrintButton); // Spacing between buttons
     buttonBox.setAlignment(Pos.CENTER_RIGHT);
 
     vbox.getChildren().addAll(content, buttonBox);
-    vbox.setAlignment(Pos.CENTER); // Center alignment for the VBox
+    vbox.setAlignment(Pos.CENTER);
 
-    // Create a nested label for the graphic
+
+
     Label themeLabel = new Label(Theme);
     themeLabel.setContentDisplay(ContentDisplay.LEFT);
     themeLabel.setStyle("-fx-font-weight: bold; -fx-font-style: italic;");
@@ -328,7 +330,7 @@ try {
 
 //  translate to id first then add
     if (search_intern_theme.getValue()!= null) {
-      filters.put("theme_id",String.valueOf(oracleConnector.getThemeIdByName(search_intern_theme.getValue())));
+      filters.put("theme_id",String.valueOf(oracleConnector.getIdByName("theme",search_intern_theme.getValue())));
     }
 
     if (!search_intern_University.getText().isEmpty()) {
@@ -339,7 +341,7 @@ try {
     }
 
 //    get the result according to the constraints
-    List<Map<String, Object>> internData = oracleConnector.getInternRows(filters);
+    List<Map<String, Object>> internData = oracleConnector.searchIntern(filters);
 
     for (Map<String, Object> intern : internData) {
       // Safely get values with null checks
