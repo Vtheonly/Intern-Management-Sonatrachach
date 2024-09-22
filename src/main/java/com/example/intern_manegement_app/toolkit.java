@@ -37,11 +37,71 @@ public class toolkit {
     }
 
 
-//    public static String preProcess(String formatted){
-//
-//
-//        return "";
-//    }
+    public static String preProcess(String input) {
+        Map<String, String> replacements = new HashMap<>();
+        replacements.put("password_creation_date", "Password Creation Date");
+        replacements.put("department_id", "Department ID");
+        replacements.put("department_name", "Department Name");
+        replacements.put("supervisor_id", "Supervisor Name");
+        replacements.put("fax_number", "Fax Number");
+        replacements.put("full_name", "Full Name");
+        replacements.put("email_address", "Email Address");
+        replacements.put("user_id", "User ID");
+        replacements.put("role_id", "Role");
+        replacements.put("password_expiry_date", "Password Expiry Date");
+        replacements.put("phone_number", "Phone Number");
+        replacements.put("username", "Username");
+        replacements.put("theme_id", "Theme ID");
+        replacements.put("theme_name", "Theme Name");
+        replacements.put("description", "Description");
+        replacements.put("theme_responsible", "Theme Responsible");
+        replacements.put("department_description", "Department Description");
+        replacements.put("location", "Location");
+        replacements.put("fax", "Fax");
+        replacements.put("intern_id", "Intern ID");
+        replacements.put("university", "University");
+        replacements.put("name", "Name");
+        replacements.put("IS_ACCEPTED", "Decision");
+        replacements.put("age", "Age");
+        replacements.put("email", "Email");
+        replacements.put("start_date", "Start Date");
+
+        // Remove unnecessary fields like "salt" and "password_hash"
+        String[] lines = input.split(",\n");
+        StringBuilder result = new StringBuilder();
+
+        for (String line : lines) {
+            if (line.contains("salt") || line.contains("password_hash")) {
+                // Skip this line as it contains a field to be deleted
+                continue;
+            }
+
+            // Split the line into key-value pairs by the first occurrence of ":"
+            String[] keyValue = line.split(":", 2);
+            if (keyValue.length < 2) {
+                continue;
+            }
+
+            String key = keyValue[0].trim();
+            String value = keyValue[1].trim();
+
+            // Check if the key exists in the replacements map, if so, replace it
+            if (replacements.containsKey(key)) {
+                key = replacements.get(key);
+            }
+
+            // Append the reformatted line to the result
+            result.append(key).append(": ").append(value).append(",\n");
+        }
+
+        // Remove the last comma and newline
+        if (result.length() > 0) {
+            result.setLength(result.length() - 2);  // Remove ",\n"
+        }
+
+        return result.toString();
+    }
+
 
     // this func was AI generated
     // it makes it ready for the view in the pane

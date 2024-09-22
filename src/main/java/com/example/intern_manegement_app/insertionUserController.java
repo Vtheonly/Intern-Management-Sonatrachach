@@ -119,27 +119,35 @@ public class insertionUserController implements Initializable {
 //  todo : put "addtopools" this into a separate  class with the polls as argument
   @FXML
   public void addToThemePool(String title, String info) {
-    Label innerLabel = new Label(formatString(info));
+    Label innerLabel = new Label(
+            preProcess(formatString(info))
+
+    );
     innerLabel.setWrapText(true);
     AnchorPane.setLeftAnchor(innerLabel, 0.0);
     AnchorPane.setRightAnchor(innerLabel, 0.0);
-
-    Button buttonDel = new Button("Delete");
-
-    buttonDel.setOnAction(event -> {
-
-      labelText = ((Label) ((AnchorPane) ((VBox) ((HBox) buttonDel.getParent()).getParent()).getChildren().get(0)).getChildren().get(0)).getText();
-
-      Map<String, String> params = toolkit.parseText(labelText);
-      oracleConnector.deleteTheme(Integer.parseInt(params.get("theme_id")),params.get("theme_name"));
-    });
 
     AnchorPane content = new AnchorPane();
     innerLabel.prefWidthProperty().bind(content.widthProperty());
     content.getChildren().add(innerLabel);
 
 
-    HBox buttonBox = new HBox(10, buttonDel);
+    Button buttonDelete = new Button("Delete");
+    Button buttonUpdate = new Button("Update");
+
+    buttonDelete.setOnAction(event -> {
+      labelText = formatString(info);
+      Map<String, String> params = toolkit.parseText(labelText);
+      oracleConnector.deleteTheme(Integer.parseInt(params.get("theme_id")),params.get("theme_name"));
+    });
+    buttonUpdate.setOnAction(event -> {
+      labelText = formatString(info);
+      Map<String, String> params = toolkit.parseText(labelText);
+//      oracleConnector.updateTheme(Integer.parseInt(params.get("theme_id")),params.get("theme_name"));
+    });
+
+
+    HBox buttonBox = new HBox(10, buttonDelete,buttonUpdate);
     buttonBox.setAlignment(Pos.CENTER_RIGHT);
 
 
@@ -159,8 +167,7 @@ public class insertionUserController implements Initializable {
   public void addToWorkerUserPool(String Title, String Info) {
 
 
-
-    Label innerLabel = new Label(formatString(Info));
+    Label innerLabel = new Label(preProcess(formatString(Info)));
     innerLabel.setWrapText(true);
     AnchorPane.setLeftAnchor(innerLabel, 0.0);
     AnchorPane.setRightAnchor(innerLabel, 0.0);
@@ -177,8 +184,7 @@ public class insertionUserController implements Initializable {
     updateButton.setOnAction(event -> {
 
 
-      labelText = ((Label) ((AnchorPane) ((VBox) ((HBox) deleteButton.getParent()).getParent()).getChildren().get(0)).getChildren().get(0)).getText();
-
+      labelText = formatString(Info);
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("update_worker_user.fxml"));
       Parent root = null;
       try {
@@ -213,7 +219,8 @@ public class insertionUserController implements Initializable {
   
   @FXML
   public void addToDepartmentPool(String title, String info) {
-    Label innerLabel = new Label(formatString(info));
+    Label innerLabel = new Label(preProcess(formatString(info)))
+            ;
     innerLabel.setWrapText(true);
     AnchorPane.setLeftAnchor(innerLabel, 0.0);
     AnchorPane.setRightAnchor(innerLabel, 0.0);
@@ -229,17 +236,10 @@ public class insertionUserController implements Initializable {
 
     deleteButton.setOnAction(event -> {
 
-      labelText = ((Label) ((AnchorPane) ((VBox) ((HBox) deleteButton.getParent()).getParent()).getChildren().get(0)).getChildren().get(0)).getText();
+      labelText = formatString(info);
       Map<String, String> params= toolkit.parseText(labelText);
       oracleConnector.deleteDepartment(Integer.parseInt(params.get("department_id")),params.get("department_name") );
     });
-
-
-
-
-
-
-
 
 
     HBox buttonBox = new HBox(10, updateButton,deleteButton);

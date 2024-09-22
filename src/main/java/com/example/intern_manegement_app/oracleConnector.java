@@ -482,9 +482,6 @@ public class oracleConnector {
 
 
 
-
-
-
   public static Integer getIdByName(String tableName, String name) {
     Integer id = null;
     String columnName = "";
