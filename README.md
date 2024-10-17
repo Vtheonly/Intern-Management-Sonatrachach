@@ -1,5 +1,3 @@
-# Application README
-
 ## Introduction
 
 This application is designed to manage various entities such as themes, departments, workers, and interns. It provides user authentication, role-based access control, and CRUD (Create, Read, Update, Delete) operations. Additionally, it includes functionalities for email sending and PDF generation.
