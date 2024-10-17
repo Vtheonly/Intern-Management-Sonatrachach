@@ -211,4 +211,3 @@ This application is designed to manage various entities such as themes, departme
 - **Reverse Engineering Protection (Obfuscation)**
 - **Password Hashing**
 
-This README provides a concise overview of the application's features, workflow, and tools used. For more detailed information, refer to the full documentation.
