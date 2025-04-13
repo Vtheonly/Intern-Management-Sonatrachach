@@ -9,7 +9,10 @@ import java.util.Map;
 
 import static java.sql.DriverManager.getConnection;
 public class oracleConnector {
-  private static final String URL = "jdbc:oracle:thin:@localhost:1521/sh";
+//  private static final String URL = "jdbc:oracle:thin:@localhost:1521/sh"; the old from the 12d
+
+  private static final String URL = "jdbc:oracle:thin:@localhost:1521/XE"; // this one is from docker
+
   private static final String USERNAME = "system";
   private static final String PASSWORD = "rootroot";
   private static Connection connection;
@@ -21,7 +24,7 @@ public class oracleConnector {
       System.out.println("Connected!");
     } catch (SQLException e) {
       System.out.println(
-          "Failed to establish a connection to the Oracle database.");
+              "Failed to establish a connection to the Oracle database.");
       e.printStackTrace();
     }
   }
@@ -92,12 +95,12 @@ public class oracleConnector {
     return false;}
 
   private static boolean isColumnExist(String tableName, String columnName, Connection connection) {
-      try (ResultSet columns = connection.getMetaData().getColumns(null, null, tableName, columnName)) {
-        return columns.next();
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
-      }
+    try (ResultSet columns = connection.getMetaData().getColumns(null, null, tableName, columnName)) {
+      return columns.next();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
+  }
 
 
 

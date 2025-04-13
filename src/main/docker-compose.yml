@@ -1,0 +1,28 @@
+version: '3.8' # Specify compose file version
+
+services:
+  oracle-db: # Service name (can be anything)
+    image: gvenzl/oracle-xe # Use the Oracle Express Edition image
+    container_name: oracle-db-container # Explicit container name
+    ports:
+      - "1521:1521" # Map host port 1521 to container port 1521
+    environment:
+      # Set the SYSTEM/SYS password (use environment variables or secrets in real apps)
+      ORACLE_PASSWORD: rootroot
+      # APP_USER_PASSWORD: some_password # If creating an app user via scripts
+      # APP_USER: some_user
+    volumes:
+      # Mount the local sql-scripts directory to the container's init directory
+      # Scripts here run automatically ONLY when the database is first created (volume is empty)
+      - ./sql-scripts:/container-entrypoint-initdb.d
+      # Named volume for persistent database data
+      - oracle_data:/opt/oracle/oradata
+    # Optional: Healthcheck to wait until DB is ready (improves startup reliability)
+    # healthcheck:
+    #   test: ["CMD", "sqlplus", "-L", "system/rootroot@//localhost:1521/XE", "exit"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 10
+
+volumes:
+  oracle_data: # Define the named volume for persistence

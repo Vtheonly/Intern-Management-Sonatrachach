@@ -31,7 +31,7 @@ import static com.example.intern_manegement_app.toolkit.formatString;
 import static com.example.intern_manegement_app.toolkit.parseText;
 
 public class insertionInternController implements Initializable {
-//  to exchange data in update and delete needs to be global
+  //  to exchange data in update and delete needs to be global
   static String labelText;
 
   oracleConnector Connection = new oracleConnector();
@@ -61,7 +61,7 @@ public class insertionInternController implements Initializable {
   @FXML private TextField search_intern_Phone;
   @FXML private DatePicker search_intern_StartDate;
 
-// Report_tab
+  // Report_tab
   @FXML private HTMLEditor PDF_INPUT;
 
   @Override
@@ -77,7 +77,7 @@ public class insertionInternController implements Initializable {
 
 
   }
-// clears all inputs and query
+  // clears all inputs and query
   @FXML
   public void clearInputs() {
     insert_intern_Name.clear();
@@ -153,7 +153,7 @@ public class insertionInternController implements Initializable {
     }
     String themeName = insert_intern_theme.getValue();
     if (themeName != null && !themeName.isEmpty()) {
-    // gets it by the function because it doesn't understand text only the id
+      // gets it by the function because it doesn't understand text only the id
       Integer themeId = oracleConnector.getIdByName("theme", themeName);
       internData.put("theme_id", themeId);
     }
@@ -163,7 +163,7 @@ public class insertionInternController implements Initializable {
     String[] keys = internData.keySet().toArray(new String[0]);
     String value;
     for (String key : keys) {
-    value =internData.get(key).toString();
+      value =internData.get(key).toString();
       if(value=="" || value.isEmpty()){// missing arg empty
         JOptionPane.showMessageDialog(null, "Fill all the inputs fields", "Missing Parameters", JOptionPane.WARNING_MESSAGE);
         return; // the transaction doesn't happen
@@ -172,15 +172,15 @@ public class insertionInternController implements Initializable {
 
 
 //    check if phone number and age are numbers
-try {
+    try {
       Integer age =  Integer.parseInt(String.valueOf(insert_intern_Age.getText()));
       Integer phone =  Integer.parseInt(String.valueOf(insert_intern_Phone.getText()));
       // if he inputs a mixed text the number cant be parsed there for invalid
 
-}catch(Exception e){
-  JOptionPane.showMessageDialog(null, "Fill fields with valid inputs", "invalid Parameters", JOptionPane.WARNING_MESSAGE);
-  return;
-}
+    }catch(Exception e){
+      JOptionPane.showMessageDialog(null, "Fill fields with valid inputs", "invalid Parameters", JOptionPane.WARNING_MESSAGE);
+      return;
+    }
 
 
 
@@ -359,11 +359,11 @@ try {
       String theme;
       if (intern.get("theme_id") != null) {
         theme = oracleConnector.getNameById(
-               Integer.parseInt((String)intern.get("theme_id")),
+                Integer.parseInt((String)intern.get("theme_id")),
                 "theme",
                 "theme_id",
                 "theme_name"
-                );
+        );
       } else {
         theme = "UnknownTH";
       }
